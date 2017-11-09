@@ -3,10 +3,16 @@ module Web::Controllers::Entries
     include Web::Action
 
     expose :entries
-
+    expose :sort
+    
     def call(params)
-      # @entries = EntryRepository.new.all
-      @entries = EntryRepository.new.most_recent
+    
+      @sort = params[:sort]
+      if @sort.downcase == 'asc' || @sort.downcase == 'ascending'  #"||" is or
+        @entries = EntryRepository.new.least_recent
+      else
+        @entries = EntryRepository.new.most_recent
+      end
     end
   end
 end
